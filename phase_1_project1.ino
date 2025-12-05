@@ -88,7 +88,7 @@ void loop() {
   }
 
   // ------------ Ultrasonic Safety ------------------
-  int dist = getDistance();
+  float dist = getDistance();
   float TTC = computeTTC(dist, currentSpeed);
 
   bool unsafe = (TTC > 0 && TTC < minSafeTTC);
@@ -133,7 +133,9 @@ void handleSpeedCommand(char cmd) {
 // =================================================
 //                ULTRASONIC FUNCTIONS
 // =================================================
-float  digitalWrite(trigPin, LOW);
+
+float getDistance() {
+  digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
 
   digitalWrite(trigPin, HIGH);
