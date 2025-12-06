@@ -45,7 +45,9 @@ void setup() {
   BT.begin(9600);
 
   lcd.begin(16, 2);
-  lcd.print("  SMART  CAR");
+  lcd.print("   SMART  CAR");
+  lcd.setCursor(0, 1);
+  lcd.print("   By Shadow");
 
   pinMode(ENA, OUTPUT);
   pinMode(ENB, OUTPUT);
@@ -81,11 +83,12 @@ void loop() {
 
   // ------------ Light Control by LDR ---------------
   int lightLevel = analogRead(LDR);
-  if (lightLevel < headlightThreshold) {
+  bool lightOn = (lightLevel < headlightThreshold);
+
+  if (lightOn)
     digitalWrite(headlights, HIGH);
-  } else {
+  else
     digitalWrite(headlights, LOW);
-  }
 
   // ------------ Ultrasonic Safety ------------------
   float dist = getDistance();
@@ -104,7 +107,7 @@ void loop() {
   moveCar(btCmd);
 
   // ------------ Update LCD -------------------------
-  updateLCD(currentSpeed, lightLevel, dist, unsafe);
+  updateLCD(currentSpeed, lightOn, dist, unsafe);
 }
 
 
@@ -253,20 +256,26 @@ void stopCar() {
 // =================================================
 //                   LCD DISPLAY
 // =================================================
-void updateLCD(int spd, int light, float dist, bool unsafe) {
+void updateLCD(int spd, bool lightOn, float dist, bool unsafe) {
+  
   lcd.setCursor(0, 0);
   lcd.print("SPD:");
   lcd.print(spd);
-  lcd.print(" LT:");
-  lcd.print(light);
+
+  lcd.print("  ");
+
+  lcd.print("LIGHT:");
+  if (lightOn)
+    lcd.print("ON ");
+  else
+    lcd.print("OFF");
 
   lcd.setCursor(0, 1);
+  lcd.print("MOVE:");
 
   if (unsafe) {
-    lcd.print("TTC! D:");
-    lcd.print(dist, 1);   // <-- FIXED
+    lcd.print("OBSTACLE ");
   } else {
-    lcd.print("SAFE D:");
-    lcd.print(dist, 1);   // <-- FIXED
+    lcd.print("SAFE     ");
   }
 }
