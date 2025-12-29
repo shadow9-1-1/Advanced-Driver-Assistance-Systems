@@ -47,7 +47,7 @@ const int headlightThreshold = 400;
 const float wheelDiameter = 0.065;      // meters (65mm typical for small robot car)
 const float maxRPM = 200.0;             // max motor RPM at PWM 255
 const float decelRate = 0.5;            // deceleration rate in m/s^2 (gradual braking)
-const float minStoppingDistance = 5.0;  // minimum safe distance in cm
+const float minStoppingDistance = 25.0;  // minimum safe distance in cm
 
 // Previous distance for velocity calculation
 float prevDistance = 400.0;
